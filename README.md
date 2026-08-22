@@ -1,4 +1,4 @@
-# ChatKode Dataset Preparation Pipeline
+# Dataset Preparation Pipeline
 
 A production-ready, modular pipeline for preparing high-quality training datasets for frontier-level coding AI models.
 
