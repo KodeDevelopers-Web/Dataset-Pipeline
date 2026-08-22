@@ -6,7 +6,7 @@ A production-ready, modular pipeline for preparing high-quality training dataset
 
 ## Features
 
-✅ **25+ Dataset Adapters** - Automated download and preprocessing  
+✅ **6 Dataset Adapters** - Automated download and preprocessing  
 ✅ **Unified Schema** - Consistent format across all datasets  
 ✅ **Automatic Language Detection** - 35+ programming languages supported  
 ✅ **Smart Deduplication** - MinHash-based duplicate removal  
