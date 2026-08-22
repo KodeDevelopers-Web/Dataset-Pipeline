@@ -1,2 +1,2 @@
 # Dataset-Pipeline
-This is a Dataset processing Pipeline made by Kode Developers for:
+This is a Dataset processing Pipeline made by Kode Developers
