@@ -588,4 +588,4 @@ Always review the license terms of every dataset before training or distributing
 
 # Author
 
-Dataset Preparation Pipeline V2
+Divyanshu (Dataset Engineering & Pipeline Developer)
