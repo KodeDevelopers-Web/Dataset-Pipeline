@@ -5,6 +5,7 @@ This guide helps contributors understand, run, and extend the Dataset Preparatio
 ## Quick orientation
 
 - Primary language: Python (3.11+).
+- Hosted walkthrough: [Pipeline.ipynb - Colab](https://colab.research.google.com/drive/1AiJ7niFX0t1cW3WhnWQO_05d-QxCIxmC).
 - Main entry points: `pipeline.py`, `preprocess.py`.
 - Important modules: `config.py` (configuration loader), `schemas.py` (unified sample schema), `adapters/` (dataset adapters), `utils/` (helpers: checkpointing, logging, tokenization, etc.).
 
@@ -12,7 +13,7 @@ This guide helps contributors understand, run, and extend the Dataset Preparatio
 
 ```
 Dataset-Pipeline/                  # repository root
-├── Dataset Loading Pipeline/      # main pipeline package
+├── Pipeline/                      # main pipeline package
 │   ├── adapters/                  # adapters that convert raw datasets into unified schema
 │   │   ├── base.py                # BaseAdapter class and adapter contract
 │   │   ├── apps.py                # APPS adapter (example)
@@ -35,7 +36,7 @@ Dataset-Pipeline/                  # repository root
 └── .gitignore
 ```
 
-Notes: the repository stores the main code under the folder named `Dataset Loading Pipeline`. Importers use module-style imports (e.g., `from config import get_config`).
+Notes: the repository stores the main code under `Pipeline`. Run commands from that directory so module-style imports (e.g., `from config import get_config`) resolve correctly.
 
 ## How to run locally (developer flow)
 
@@ -47,17 +48,17 @@ cd Dataset-Pipeline
 python -m venv .venv
 source .venv/bin/activate   # Linux/macOS
 .venv\Scripts\activate     # Windows (PowerShell/CMD variations)
-pip install -r "Dataset Loading Pipeline/requirements.txt"
+pip install -r Pipeline/requirements.txt
 ```
 
 2. Quick smoke run (small, safe)
 
 ```bash
 # Run the preprocessing iterator and print a few samples
-python "Dataset Loading Pipeline/preprocess.py"
+python Pipeline/preprocess.py
 
 # Run the full pipeline (will download configured datasets)
-python "Dataset Loading Pipeline/pipeline.py"
+python Pipeline/pipeline.py
 ```
 
 3. Common environment variables (example)
@@ -71,7 +72,7 @@ PIPELINE_LOG_LEVEL=DEBUG
 
 ## Configuration
 
-- The canonical configuration loader is `Dataset Loading Pipeline/config.py`.
+- The canonical configuration loader is `Pipeline/config.py`.
 - Defaults are in `DEFAULT_CONFIG` and `DEFAULT_DATASETS` inside that file.
 - `get_config()` merges defaults, an optional `config.yaml` at the repo root, and environment variables (highest priority).
 - Use `config.save_config()` to write a YAML file from a Python dict (requires PyYAML).
@@ -90,7 +91,7 @@ Key fields you'll likely adjust:
 
 ## Adapters: adding a new dataset
 
-1. Create a new adapter module in `Dataset Loading Pipeline/adapters/` (e.g., `mydataset.py`).
+1. Create a new adapter module in `Pipeline/adapters/` (e.g., `mydataset.py`).
 2. Implement either:
    - A class inheriting from `BaseAdapter` and implement `preprocess()` (preferred), or
    - A module-level `process(hf_dataset)` generator that yields dicts compatible with the unified schema (existing adapters follow both patterns; `preprocess.py` expects `adapters.{adapter}` to provide a `process()` generator).
@@ -98,7 +99,7 @@ Key fields you'll likely adjust:
 Minimum example (preferred BaseAdapter):
 
 ```python
-# Dataset Loading Pipeline/adapters/mydataset.py
+# Pipeline/adapters/mydataset.py
 from adapters.base import BaseAdapter
 from schemas import create_sample
 
@@ -128,7 +129,7 @@ def process(hf_dataset):
             yield sample
 ```
 
-3. Add adapter to `DEFAULT_DATASETS` in `Dataset Loading Pipeline/config.py` or control inclusion via `config.yaml` or environment variables.
+3. Add adapter to `DEFAULT_DATASETS` in `Pipeline/config.py` or control inclusion via `config.yaml` or environment variables.
 
 4. Test locally: run `preprocess.py` and verify samples are produced and validated.
 
@@ -150,7 +151,7 @@ def process(hf_dataset):
 
 ## Tests & CI
 
-- There is a `tests/` dir under `Dataset Loading Pipeline` with placeholders. Add unit tests for adapters and core modules.
+- There is a `Pipeline/tests/` directory with integration tests. Add unit tests for adapters and core modules there.
 - Suggested test targets:
   - Adapter `preprocess()` outputs match `UnifiedSample` shape
   - `schemas.UnifiedSample.validate()` rejects malformed samples
@@ -171,7 +172,7 @@ def process(hf_dataset):
 ## Contributing
 
 - Follow the adapter template above.
-- Add tests for new logic to `Dataset Loading Pipeline/tests/`.
+- Add tests for new logic to `Pipeline/tests/`.
 - Update `DEFAULT_DATASETS` when adding a widely-used dataset or provide instructions to enable it through `config.yaml`.
 
 ## Contacts

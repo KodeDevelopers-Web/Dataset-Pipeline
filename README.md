@@ -22,6 +22,12 @@ A production-ready, modular pipeline for preparing high-quality training dataset
 
 ## Quick Start
 
+### Run in Google Colab
+
+Open the hands-on notebook in Google Colab:
+
+[Pipeline.ipynb - Colab](https://colab.research.google.com/drive/1AiJ7niFX0t1cW3WhnWQO_05d-QxCIxmC)
+
 ### Installation
 
 ```bash
@@ -30,18 +36,18 @@ cd Dataset-Pipeline
 python -m venv .venv
 # Activate the virtualenv (see platform-specific instructions below)
 # Install runtime dependencies from the packaged requirements file
-pip install -r "Dataset Loading Pipeline/requirements.txt"
+pip install -r Pipeline/requirements.txt
 ```
 
-Note: the project's Python code lives inside the "Dataset Loading Pipeline" directory. You can either run commands by specifying that path (e.g. `python "Dataset Loading Pipeline/pipeline.py"`) or change directory into it before running pipeline commands:
+The project's Python code lives inside the `Pipeline` directory. You can either run commands from the repository root using the `Pipeline/` prefix or change directory into it before running pipeline commands:
 
 ```bash
-cd "Dataset Loading Pipeline"
+cd Pipeline
 ```
 
 ### Run Full Pipeline
 
-From the `Dataset Loading Pipeline` directory:
+From the `Pipeline` directory:
 
 ```bash
 python pipeline.py
@@ -180,15 +186,15 @@ See [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) for complete configuration options.
 ### Command Line
 
 ```bash
-# Run full pipeline with default config (from project root):
-python "Dataset Loading Pipeline/pipeline.py"
+# Run full pipeline with default config (from the Pipeline directory):
+python pipeline.py
 
 # Process specific datasets (preprocessing only):
-python "Dataset Loading Pipeline/preprocess.py"
+python preprocess.py
 
 # View configuration
 python -c "from config import print_config; print_config()" 
-# (run this from within Dataset Loading Pipeline directory or set PYTHONPATH appropriately)
+# (run this from within the Pipeline directory)
 ```
 
 ### Programmatic Usage
@@ -334,14 +340,14 @@ See [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) for detailed instructions on:
 
 ```bash
 # Increase retry attempts
-PIPELINE_DOWNLOAD_RETRY_ATTEMPTS=5 python "Dataset Loading Pipeline/pipeline.py"
+PIPELINE_DOWNLOAD_RETRY_ATTEMPTS=5 python Pipeline/pipeline.py
 ```
 
 ### Out of Memory
 
 ```bash
 # Reduce batch size and workers
-PIPELINE_BATCH_SIZE=8 PIPELINE_WORKERS=1 python "Dataset Loading Pipeline/pipeline.py"
+PIPELINE_BATCH_SIZE=8 PIPELINE_WORKERS=1 python Pipeline/pipeline.py
 ```
 
 ### Language Detection Not Working
@@ -420,14 +426,14 @@ source .venv/bin/activate
 Install dependencies.
 
 ```bash
-pip install -r "Dataset Loading Pipeline/requirements.txt"
+pip install -r Pipeline/requirements.txt
 ```
 
 ---
 
 # Configure Datasets
 
-Edit `config.py` inside the `Dataset Loading Pipeline` directory.
+Edit `Pipeline/config.py`.
 
 Example:
 
@@ -458,7 +464,7 @@ DATASETS = [
 # Running the Pipeline
 
 ```bash
-python "Dataset Loading Pipeline/pipeline.py"
+python Pipeline/pipeline.py
 ```
 
 Pipeline:
@@ -588,4 +594,4 @@ Always review the license terms of every dataset before training or distributing
 
 # Author
 
-Dataset Preparation Pipeline V2
+Divyanshu (Dataset engineer & pipeline developer)
